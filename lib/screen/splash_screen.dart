@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:timesheet/screen/test1.dart';
 
 import '../controller/splash_controller.dart';
 import '../helper/route_helper.dart';
@@ -32,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
         bool isNotConnected = result != ConnectivityResult.wifi &&
             result != ConnectivityResult.mobile;
         isNotConnected
-            ? SizedBox()
+            ? const SizedBox()
             : ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: isNotConnected ? Colors.red : Colors.green,
@@ -78,7 +79,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   _route() {
     Timer(const Duration(milliseconds: 1500), () async {
-      Get.offNamed(RouteHelper.signIn);
+      Get.offNamed(RouteHelper.main);
+      // Get.to(() => Test1());
     });
     // Get.find<SplashController>().isUpdateVersion().then((value) => {
     //       Timer(const Duration(seconds: 1000), () async {

@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ColorResources {
+
+  static Color getMainColor() {
+    return Get.isDarkMode ? Colors.deepPurple:  Color(0xFF4B49AC);
+  }
+
   static Color getPrimaryColor() {
-    return Get.isDarkMode ? Colors.green :  Color(0xFF039D55);
+    return Get.isDarkMode ? Colors.green :  Color(0xff9c9bf8);
   }
 
   static Color getPrimaryTextColor() {

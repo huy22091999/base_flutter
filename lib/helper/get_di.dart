@@ -8,6 +8,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timesheet/controller/auth_controller.dart';
 import 'package:timesheet/controller/ccdc_controller.dart';
+import 'package:timesheet/controller/scan_qr_controller.dart';
 import 'package:timesheet/data/repository/ccdc_repo.dart';
 import 'package:timesheet/data/repository/splash_repo.dart';
 import '../controller/localization_controller.dart';
@@ -43,6 +44,7 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => SplashController(repo: Get.find()));
   Get.lazyPut(() => AuthController(repo: Get.find()));
   Get.lazyPut(() => CCDCController(repo: Get.find()));
+  Get.lazyPut(() => QrController());
 
   if (await Permission.location.isGranted) {
     final newLocalData = await Geolocator.getCurrentPosition(

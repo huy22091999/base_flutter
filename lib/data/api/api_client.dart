@@ -7,7 +7,6 @@ import 'package:get/get_connect/http/src/request/request.dart';
 import 'package:http/http.dart' as Http;
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../utils/app_constants.dart';
 import '../model/error_response.dart';
 

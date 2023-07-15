@@ -22,6 +22,7 @@ import 'helper/get_di.dart' as di;
 import 'helper/notification_helper.dart';
 import 'helper/responsive_helper.dart';
 import 'helper/route_helper.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 Future<void> main() async {
   if (kDebugMode) {
@@ -86,6 +87,15 @@ class MyApp extends StatelessWidget {
           getPages: RouteHelper.routes,
           defaultTransition: Transition.topLevel,
           transitionDuration: const Duration(milliseconds: 250),
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('vi'),
+            Locale('en'),
+          ],
         );
       });
     });
