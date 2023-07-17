@@ -32,7 +32,7 @@ class InventoryRepo {
 
   Future<Response> getItemOfDepartment(String idDepartment) async {
     Map<String, dynamic> query = {'useDepartmentId' : idDepartment};
-    return await apiClient.getDataNewApi(AppConstants.GET_DEPARTMENT,query: query,headers: null);
+    return await apiClient.getDataNewApi(AppConstants.GET_ITEM_DEPARTMENT,query: query,headers: null);
   }
 
 }

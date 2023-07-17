@@ -59,4 +59,14 @@ class QrController extends GetxController implements GetxService {
       },
     );
   }
+
+  Future<Response> saveNoteAsset(String note) async {
+    _loading = true;
+    update();
+    _assetInfo?.note = note;
+    Response value = await scanRepo.saveNoteAsset(_assetInfo!);
+    _loading = false;
+    update();
+    return value;
+  }
 }

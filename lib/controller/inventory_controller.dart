@@ -19,6 +19,10 @@ class InventoryController extends GetxController implements GetxService {
 
   bool get loading => _loading;
 
+  List<Department>? _listAsset;
+
+  List<Department>? get listAsset => _listAsset;
+
   void getDepartment() async {
     _loading = true;
     update();

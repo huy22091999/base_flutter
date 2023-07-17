@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:timesheet/screen/home/home_screen.dart';
+import 'package:timesheet/screen/list_inventory_screen/list_inventory_screen.dart';
 import 'package:timesheet/screen/sign_in_screen.dart';
 
 import '../screen/scan_asset/info_asset_screen.dart';
@@ -30,6 +31,7 @@ class RouteHelper {
   static const String notification = '/notification';
   static const String navbar = '/navbar';
   static const String assetInfo = '/asset-info';
+  static const String listInventory = '/list-inventory';
 
   static String getInitialRoute() => '$initial';
 
@@ -37,13 +39,13 @@ class RouteHelper {
 
   static String getLanguageRoute(String page) => '$language?page=$page';
 
-
   static String getSignInRoute() => '$signIn';
 
   static String getSignUpRoute() => '$signUp';
 
   static String getAccessInfo(String code) => '$assetInfo?code=$code';
 
+  static String getListInventory(String id) => '$listInventory?id=$id';
 
   static List<GetPage> routes = [
     GetPage(name: splash, page: () => const SplashScreen()),
@@ -52,6 +54,9 @@ class RouteHelper {
     GetPage(
         name: assetInfo,
         page: () => InfoAssetScreen(code: Get.parameters['code']!)),
+    GetPage(
+        name: listInventory,
+        page: () => ListInventoryScreen(id: Get.parameters['id']!)),
   ];
 
   static getRoute(Widget navigateTo) {
@@ -71,6 +76,8 @@ class RouteHelper {
     //             ? AccessLocationScreen(
     //                 fromSignUp: false, fromHome: false, route: Get.currentRoute)
     //             :
+
+
     navigateTo;
   }
 }

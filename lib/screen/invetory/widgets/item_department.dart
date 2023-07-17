@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:timesheet/controller/inventory_controller.dart';
-import 'package:timesheet/data/model/response/department.dart';
-import 'package:timesheet/screen/list_inventory_screen/list_inventory_screen.dart';
-import 'package:timesheet/utils/color_resources.dart';
 import 'package:get/get.dart';
+import 'package:timesheet/data/model/response/department.dart';
+import 'package:timesheet/utils/color_resources.dart';
+
+import '../../../helper/route_helper.dart';
 
 class ItemDepartment extends StatelessWidget {
   final Department department;
+
   const ItemDepartment({super.key, required this.department});
 
   @override
@@ -36,10 +37,12 @@ class ItemDepartment extends StatelessWidget {
                 const SizedBox(width: 6,),
                 ElevatedButton(
                   onPressed: () {
-                    Get.find<InventoryController>().getItemOfDepartment(department.id!);
-                    Get.to(() => const ListInventoryScreen(),
-                        transition: Transition.rightToLeftWithFade,
-                        duration: const Duration(milliseconds: 400));
+                    // Get.find<InventoryController>().getItemOfDepartment(department.id!);
+                    // Get.to(() => const ListInventoryScreen(),
+                    //     transition: Transition.rightToLeftWithFade,
+                    //     duration: const Duration(milliseconds: 400));
+
+                    Get.offNamed(RouteHelper.getListInventory(department.id!));
                   },
                   style: ElevatedButton.styleFrom(
                       shape: const RoundedRectangleBorder(
