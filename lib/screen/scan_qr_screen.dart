@@ -142,7 +142,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
       final code = scanData.code;
       if (code != null && code.isNotEmpty) {
         String qrCode = code.substring(7, 18);
-        Get.toNamed(RouteHelper.getAccessInfo(qrCode));
+        Get.offNamed(RouteHelper.getAccessInfo(qrCode));
         // Get.find<QrController>().getInfoAsset(qrCode);
       }
     });
@@ -159,16 +159,8 @@ class _QRScannerPageState extends State<QRScannerPage> {
   void showToast() {
     fToast.showToast(
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(16)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.5),
-              spreadRadius: 0.2,
-              blurRadius: 5,
-              offset: const Offset(0, 1), // changes position of shadow
-            ),
-          ],
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(16)),
           color: Colors.green,
         ),
         child: const Padding(

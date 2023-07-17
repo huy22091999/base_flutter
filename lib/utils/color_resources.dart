@@ -4,15 +4,15 @@ import 'package:get/get.dart';
 class ColorResources {
 
   static Color getMainColor() {
-    return Get.isDarkMode ? Colors.deepPurple:  Color(0xFF4B49AC);
+    return Get.isDarkMode ? Colors.deepPurple:  Color(0xFF6666C4);
   }
 
   static Color getPrimaryColor() {
-    return Get.isDarkMode ? Colors.green :  Color(0xff9c9bf8);
+    return Get.isDarkMode ? Colors.green :  Color(0xff7372e0);
   }
 
   static Color getPrimaryTextColor() {
-    return Get.isDarkMode ? Color(0xFF8dbac3) : Color(0xFF34C434);
+    return Get.isDarkMode ? Color(0xFF8dbac3) : Color(0xFF4B5CBD);
   }
 
   static Color getSecondaryHeaderColor() {

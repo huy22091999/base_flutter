@@ -29,4 +29,10 @@ class InventoryRepo {
     return await apiClient.postDataNewApi(
         AppConstants.GET_DEPARTMENT, query, null);
   }
+
+  Future<Response> getItemOfDepartment(String idDepartment) async {
+    Map<String, dynamic> query = {'useDepartmentId' : idDepartment};
+    return await apiClient.getDataNewApi(AppConstants.GET_DEPARTMENT,query: query,headers: null);
+  }
+
 }

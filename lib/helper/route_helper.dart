@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:timesheet/screen/home_screen.dart';
-import 'package:timesheet/screen/scan_asset/sign_in_screen.dart';
+import 'package:timesheet/screen/home/home_screen.dart';
+import 'package:timesheet/screen/sign_in_screen.dart';
 
 import '../screen/scan_asset/info_asset_screen.dart';
 import '../screen/splash_screen.dart';

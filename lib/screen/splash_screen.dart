@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:timesheet/screen/home_screen.dart';
+import 'package:timesheet/screen/home/home_screen.dart';
 
 import '../controller/auth_controller.dart';
 import '../controller/splash_controller.dart';
@@ -82,10 +82,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Get.find<AuthController>().getUser().then((value) => {
       if (value == 200)
         {
-          Get.to(const HomeScreent(),
-              transition: Transition.size,
-              duration: Duration(milliseconds: 500),
-              curve: Curves.easeIn)
+          Get.offNamed(RouteHelper.main)
         }
       else
         {Get.offNamed(RouteHelper.signIn)}

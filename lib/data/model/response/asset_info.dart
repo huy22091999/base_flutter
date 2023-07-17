@@ -119,13 +119,13 @@ class AssetInfo {
   late final Null statusCode;
   late final Null statusName;
   late final Null receiverPerson;
-  late final UsePerson usePerson;
+  late final UsePerson? usePerson;
   late final Null receiverPersonCode;
   late final Null assetGroup;
   late final Null assetGroupCode;
-  late final String madeIn;
+  late final String? madeIn;
   late final Null allocationFor;
-  late final UseDepartment useDepartment;
+  late final UseDepartment? useDepartment;
   late final Null useDepartmentId;
   late final Null useDepartmentCode;
   late final Null useDepartmentName;
@@ -133,17 +133,17 @@ class AssetInfo {
   late final Null useDepartmentLast;
   late final Null installationLocation;
   late final Null supplyUnit;
-  late final Manufacturer manufacturer;
-  late final int yearOfManufacture;
+  late final Manufacturer? manufacturer;
+  late final int? yearOfManufacture;
   late final Null dayStartedUsing;
   late final Null warrantyExpiryDate;
   late final String? serialNumber;
-  late final String model;
+  late final String? model;
   late final Null usedTime;
   late final Null warrantyMonth;
   late final Null note;
   late final Null attributes;
-  late final int yearPutIntoUse;
+  late final int? yearPutIntoUse;
   late final bool isCheck;
   late final Null documents;
   late final bool isTemporary;
@@ -163,13 +163,13 @@ class AssetInfo {
   late final Null quantity;
   late final Null lotNumber;
   late final Null riskClassification;
-  late final String circulationNumber;
+  late final String? circulationNumber;
   late final Null invoiceNumber;
-  late final Unit unit;
+  late final Unit? unit;
   late final Null contract;
   late final Null isBuyLocally;
   late final Null medicalEquipment;
-  late final ShoppingForm shoppingForm;
+  late final ShoppingForm? shoppingForm;
   late final Null allocationPeriod;
   late final Null allocationPeriodValue;
   late final Null numberOfAllocations;
@@ -195,7 +195,7 @@ class AssetInfo {
     managementCode = json['managementCode'];
     qrcode = null;
     originalCost = json['originalCost'];
-    unitPrice = json['unitPrice'];
+    unitPrice = json['unitPrice'] ?? 0;
     carryingAmount = json['carryingAmount'];
     depreciationPeriod = null;
     depreciationDate = null;
@@ -208,13 +208,13 @@ class AssetInfo {
     statusCode = null;
     statusName = null;
     receiverPerson = null;
-    usePerson = UsePerson.fromJson(json['usePerson']);
+    usePerson = json['usePerson'] != null ? UsePerson.fromJson(json['usePerson']) : null;
     receiverPersonCode = null;
     assetGroup = null;
     assetGroupCode = null;
     madeIn = json['madeIn'];
     allocationFor = null;
-    useDepartment = UseDepartment.fromJson(json['useDepartment']);
+    useDepartment = json['useDepartment'] != null ? UseDepartment.fromJson(json['useDepartment']) : null;
     useDepartmentId = null;
     useDepartmentCode = null;
     useDepartmentName = null;
@@ -223,17 +223,17 @@ class AssetInfo {
     useDepartmentLast = null;
     installationLocation = null;
     supplyUnit = null;
-    manufacturer = Manufacturer.fromJson(json['manufacturer']);
+    manufacturer = json['manufacturer'] != null ? Manufacturer.fromJson(json['manufacturer']) : null;
     yearOfManufacture = json['yearOfManufacture'];
     dayStartedUsing = null;
     warrantyExpiryDate = null;
-    serialNumber =  json['serialNumber'];
-    model = json['model'];
+    serialNumber = json['serialNumber'];
+    model = json['model'] ?? null;
     usedTime = null;
     warrantyMonth = null;
     note = null;
     attributes = null;
-    yearPutIntoUse = json['yearPutIntoUse'];
+    yearPutIntoUse = json['yearPutIntoUse'] ?? null;
     isCheck = json['isCheck'];
     documents = null;
     isTemporary = json['isTemporary'];
@@ -256,11 +256,13 @@ class AssetInfo {
     riskClassification = null;
     circulationNumber = json['circulationNumber'];
     invoiceNumber = null;
-    unit = Unit.fromJson(json['unit']);
+    unit = json['unit'] != null ?  Unit.fromJson(json['unit']) : null;
     contract = null;
     isBuyLocally = null;
     medicalEquipment = null;
-    shoppingForm = ShoppingForm.fromJson(json['shoppingForm']);
+    shoppingForm = json['shoppingForm'] != null
+        ? ShoppingForm.fromJson(json['shoppingForm'])
+        : null;
     allocationPeriod = null;
     allocationPeriodValue = null;
     numberOfAllocations = null;
@@ -301,13 +303,13 @@ class AssetInfo {
     _data['statusCode'] = statusCode;
     _data['statusName'] = statusName;
     _data['receiverPerson'] = receiverPerson;
-    _data['usePerson'] = usePerson.toJson();
+    _data['usePerson'] = usePerson?.toJson();
     _data['receiverPersonCode'] = receiverPersonCode;
     _data['assetGroup'] = assetGroup;
     _data['assetGroupCode'] = assetGroupCode;
     _data['madeIn'] = madeIn;
     _data['allocationFor'] = allocationFor;
-    _data['useDepartment'] = useDepartment.toJson();
+    _data['useDepartment'] = useDepartment?.toJson();
     _data['useDepartmentId'] = useDepartmentId;
     _data['useDepartmentCode'] = useDepartmentCode;
     _data['useDepartmentName'] = useDepartmentName;
@@ -315,7 +317,7 @@ class AssetInfo {
     _data['useDepartmentLast'] = useDepartmentLast;
     _data['installationLocation'] = installationLocation;
     _data['supplyUnit'] = supplyUnit;
-    _data['manufacturer'] = manufacturer.toJson();
+    _data['manufacturer'] = manufacturer?.toJson();
     _data['yearOfManufacture'] = yearOfManufacture;
     _data['dayStartedUsing'] = dayStartedUsing;
     _data['warrantyExpiryDate'] = warrantyExpiryDate;
@@ -348,7 +350,7 @@ class AssetInfo {
     _data['riskClassification'] = riskClassification;
     _data['circulationNumber'] = circulationNumber;
     _data['invoiceNumber'] = invoiceNumber;
-    _data['unit'] = unit.toJson();
+    _data['unit'] = unit?.toJson();
     _data['contract'] = contract;
     _data['isBuyLocally'] = isBuyLocally;
     _data['medicalEquipment'] = medicalEquipment;
@@ -1017,8 +1019,8 @@ class Unit {
     _data['code'] = code;
     return _data;
   }
-
 }
+
 class ShoppingForm {
   ShoppingForm({
     this.createDate,
@@ -1033,6 +1035,7 @@ class ShoppingForm {
     this.parent,
     this.children,
   });
+
   late final Null createDate;
   late final Null createdBy;
   late final Null modifyDate;
@@ -1045,7 +1048,7 @@ class ShoppingForm {
   late final Null parent;
   late final Null children;
 
-  ShoppingForm.fromJson(Map<String, dynamic> json){
+  ShoppingForm.fromJson(Map<String, dynamic> json) {
     createDate = null;
     createdBy = null;
     modifyDate = null;
@@ -1086,6 +1089,7 @@ class Type {
     required this.name,
     required this.code,
   });
+
   late final Null createDate;
   late final Null createdBy;
   late final Null modifyDate;
@@ -1094,7 +1098,7 @@ class Type {
   late final String name;
   late final String code;
 
-  Type.fromJson(Map<String, dynamic> json){
+  Type.fromJson(Map<String, dynamic> json) {
     createDate = null;
     createdBy = null;
     modifyDate = null;

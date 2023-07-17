@@ -43,6 +43,7 @@ class QrController extends GetxController implements GetxService {
     _loading = false;
     _openBottomSheet = false;
     _scanSuccess = false;
+    _assetInfo = null;
   }
 
   void getInfoAsset(String code) {

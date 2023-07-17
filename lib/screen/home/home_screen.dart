@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:timesheet/screen/home/item_notification.dart';
 import 'package:timesheet/screen/invetory/inventory_screen.dart';
 import 'package:timesheet/screen/scan_qr_screen.dart';
 import 'package:timesheet/utils/color_resources.dart';
-import '../controller/auth_controller.dart';
+import '../../controller/auth_controller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeScreent extends StatefulWidget {
   const HomeScreent({Key? key}) : super(key: key);
@@ -17,14 +19,17 @@ class HomeScreent extends StatefulWidget {
 
 class _HomeScreentState extends State<HomeScreent> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<String> list = ['Thông báo 1','Thông báo 2','Thông báo 3'];
+  List<String> list = ['Báo hỏng - 12/07/2023 00:12','Bảo trì- 12/07/2023 00:12','Hạn bảo hành - 12/07/2023 00:12'];
+  List<String> list2 = ['Khoa điều trị tổng hợp báo hỏng tài sản TS-000023 Thiết bị laser nội mạch',
+  'Thông báo danh sách tài sản gần đến hạn bảo trì ngày 31/08/2023',
+  'Ngày 31/08/2023 là hạn bảo hành cho tài sản TS-000827 Laser CO2 phẫu thuật siêu xung 40/45W'];
   FToast fToast = FToast();
 
   @override
   void initState() {
     super.initState();
     fToast.init(context);
-    // Get.find<AuthController>().getUser();
+    Get.find<AuthController>().getUser();
   }
 
   @override
@@ -49,19 +54,21 @@ class _HomeScreentState extends State<HomeScreent> {
                         ),
                         Container(
                             margin: const EdgeInsets.only(left: 8.0),
-                            child: RichText(
+                            child: GetBuilder<AuthController>
+                              (builder: (controller) => RichText(
                               text: TextSpan(children: [
                                 const TextSpan(
                                     text: 'Xin chào,',
                                     style: TextStyle(color: Colors.black)),
                                 TextSpan(
-                                    text: '\nNguyễn Giản Tuấn',
+                                    text: '\n${controller.user.displayName}',
                                     style: TextStyle(
                                         color: ColorResources.getMainColor(),
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16.0))
                               ]),
                             )),
+                            )
                       ],
                     ),
                     Container(),
@@ -92,18 +99,18 @@ class _HomeScreentState extends State<HomeScreent> {
                     duration: const Duration(milliseconds: 800),
                     child: Container(
                       margin: const EdgeInsets.symmetric(vertical: 4),
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
-                        color: Colors.grey.shade200
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        color: Color(0xFFE8EAF6)
                       ),
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
-                          child: Text(list[index]),
+                          child: ItemNotification(title: list[index],content: list2[index],),
                         )
                     ),
                   ),
                 ),
-                SizedBox(height: height*0.12,),
+                const Spacer(),
                 Row(
                   children: [
                     Flexible(
@@ -111,8 +118,8 @@ class _HomeScreentState extends State<HomeScreent> {
                         child: GestureDetector(
                           onTap: () {
                             Get.to(() => const InventoryScreen(),
-                                transition: Transition.rightToLeftWithFade,
-                                curve: Curves.easeInOut);
+                                transition: Transition.topLevel,
+                                duration: const Duration(milliseconds: 600));
                           },
                           child: FadeInLeft(
                             duration: const Duration(milliseconds: 800),
@@ -123,14 +130,14 @@ class _HomeScreentState extends State<HomeScreent> {
                                 color: ColorResources.getPrimaryColor(),
                               ),
                               height: height*0.18,
-                              child: const Padding(
-                                padding: EdgeInsets.all(16.0),
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
                                 child: Column(
                                   children: [
-                                    Spacer(),
-                                    Icon(Icons.inventory_2_outlined,color: Colors.white,size: 50,),
-                                    Spacer(),
-                                    Align(
+                                    const Spacer(),
+                                    Image.asset('assets/image/inventory_icon.png',height: 70,width: 70,filterQuality: FilterQuality.high,),
+                                    const Spacer(),
+                                    const Align(
                                       alignment: Alignment.bottomCenter,
                                       child: Text("Kiểm kê",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
                                     ),
@@ -152,14 +159,14 @@ class _HomeScreentState extends State<HomeScreent> {
                               borderRadius: const BorderRadius.all(Radius.circular(10)),
                               color: ColorResources.getPrimaryColor(),
                             ),
-                            child: const Padding(
-                              padding: EdgeInsets.all(16.0),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
                               child: Column(
                                 children: [
-                                  Spacer(),
-                                  Icon(Icons.note_alt_outlined,color: Colors.white,size: 50,),
-                                  Spacer(),
-                                  Align(
+                                  const Spacer(),
+                                  Image.asset('assets/image/broken_report_icon.png',height: 70,width: 70,filterQuality: FilterQuality.high,),
+                                  const Spacer(),
+                                  const Align(
                                     alignment: Alignment.bottomCenter,
                                     child: Text("Báo hỏng",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
                                   ),
@@ -172,7 +179,7 @@ class _HomeScreentState extends State<HomeScreent> {
                     Flexible(
                         flex: 1,
                         child: GestureDetector(
-                          onTap: showToast,
+                          onTap: (){},
                           child: FadeInRight(
                             duration: const Duration(milliseconds: 800),
                             delay: const Duration(milliseconds: 200),
@@ -182,14 +189,14 @@ class _HomeScreentState extends State<HomeScreent> {
                                 borderRadius: const BorderRadius.all(Radius.circular(10)),
                                 color: ColorResources.getPrimaryColor(),
                               ),
-                              child: const Padding(
-                                padding: EdgeInsets.all(16.0),
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
                                 child: Column(
                                   children: [
-                                    Spacer(),
-                                    Icon(Icons.note_alt_outlined,color: Colors.white,size: 50,),
-                                    Spacer(),
-                                    Align(
+                                    const Spacer(),
+                                    Image.asset('assets/image/note_icon.png',height: 70,width: 70,filterQuality: FilterQuality.high,),
+                                    const Spacer(),
+                                    const Align(
                                       alignment: Alignment.bottomCenter,
                                       child: Text("Ghi chú",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
                                     ),
@@ -200,7 +207,8 @@ class _HomeScreentState extends State<HomeScreent> {
                           ),
                         )),
                   ],
-                )
+                ),
+                SizedBox(height: height*0.05,)
               ],
             ),
           ),
@@ -212,29 +220,5 @@ class _HomeScreentState extends State<HomeScreent> {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text("$value")))
         });
-  }
-  void showToast(){
-    fToast.showToast(
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(16)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.5),
-              spreadRadius: 0.2,
-              blurRadius: 5,
-              offset: const Offset(0, 1), // changes position of shadow
-            ),
-          ],
-          color: Colors.green,
-        ),
-        child: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.0,vertical: 12),
-          child: Text('Quét mã thành công',style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.w600),),
-        ),
-      ),
-      gravity: ToastGravity.BOTTOM,
-      toastDuration: const Duration(milliseconds: 1500),
-    );
   }
 }

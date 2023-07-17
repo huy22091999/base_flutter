@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:timesheet/controller/auth_controller.dart';
-import 'package:timesheet/screen/home_screen.dart';
+import 'package:timesheet/helper/route_helper.dart';
+import 'package:timesheet/screen/home/home_screen.dart';
 import 'package:timesheet/screen/scan_qr_screen.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:timesheet/utils/color_resources.dart';
 import 'package:timesheet/utils/images.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -128,9 +130,10 @@ class _SignInScreenState extends State<SignInScreen> {
                                             onPressed: () {
                                               _login();
                                             },
-                                            style: TextButton.styleFrom(
+                                            style: ElevatedButton.styleFrom(
                                               shape: RoundedRectangleBorder(
                                                   borderRadius: BorderRadius.circular(15)),
+                                              backgroundColor: const Color(0xFFB284BE)
                                             ),
                                             child: Container(
                                               padding:
@@ -138,8 +141,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                               child: const Text("Login",
                                                   style: TextStyle(
                                                       fontSize: 16,
-                                                      color: Color.fromRGBO(
-                                                          191, 252, 226, 1.0))),
+                                                      color: Colors.white,))
                                             ),
                                           ),
                                         ),
@@ -182,7 +184,7 @@ class _SignInScreenState extends State<SignInScreen> {
     } else {
       Get.find<AuthController>().login(username, password).then((value) => {
             if (value == 200)
-              {Get.to(() => const HomeScreent(),transition: Transition.size,duration: const Duration(milliseconds: 500),curve: Curves.easeIn)}
+              {Get.offNamed(RouteHelper.signIn)}
             else if (value == 400)
               {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

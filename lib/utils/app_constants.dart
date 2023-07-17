@@ -25,6 +25,7 @@ class AppConstants {
   static const String GET_USER = '/api/users/getCurrentUser';
   static const String GET_ASSET_INFO = '/api/asset';
   static const String GET_DEPARTMENT = '/api/assetDepartment/org/searchByPage';
+  static const String GET_ITEM_DEPARTMENT = '/api/v2/assets/asset-class/1';
   static const String GET_ALLOCATION_VOUCHERS = '/asvn/api/v1/instruments-and-tools/allocation-vouchers/page?pageIndex=1&pageSize=10';
   // Shared Key
   static const String THEME = '6ammart_theme';
