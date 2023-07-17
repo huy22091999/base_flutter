@@ -44,7 +44,7 @@ class AuthRepo {
   }
 
   Future<Response> getCurrentUser() async{
-    return await apiClient.getData(AppConstants.GET_USER);
+    return await apiClient.getDataNewApi(AppConstants.GET_USER);
   }
 
 

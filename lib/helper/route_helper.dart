@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:timesheet/screen/home_screen.dart';
-import 'package:timesheet/screen/sign_in_screen.dart';
+import 'package:timesheet/screen/scan_asset/sign_in_screen.dart';
+
+import '../screen/scan_asset/info_asset_screen.dart';
 import '../screen/splash_screen.dart';
 
 class RouteHelper {
@@ -27,6 +29,7 @@ class RouteHelper {
   static const String coupon = '/coupon';
   static const String notification = '/notification';
   static const String navbar = '/navbar';
+  static const String assetInfo = '/asset-info';
 
   static String getInitialRoute() => '$initial';
 
@@ -34,125 +37,21 @@ class RouteHelper {
 
   static String getLanguageRoute(String page) => '$language?page=$page';
 
-  static String getOnBoarding1Route() => '$onBoarding1';
-
-  static String getOnBoarding2Route() => '$onBoarding2';
 
   static String getSignInRoute() => '$signIn';
 
   static String getSignUpRoute() => '$signUp';
 
-  static String getVerificationRoute(
-      String number, String token, String page, String pass) {
-    return '$verification?page=$page&number=$number&token=$token&pass=$pass';
-  }
+  static String getAccessInfo(String code) => '$assetInfo?code=$code';
 
-  static String getAccessLocationRoute(String page) =>
-      '$accessLocation?page=$page';
-
-  static String getPickMapRoute(String page, bool canRoute) =>
-      '$pickMap?page=$page&route=${canRoute.toString()}';
-
-  static String getInterestRoute() => '$interest';
-
-  static String getMainRoute() => '$main';
-
-  static String getResetPasswordRoute(
-          String phone, String token, String page) =>
-      '$resetPassword?phone=$phone&token=$token&page=$page';
-
-  static String getSearchRoute({required String queryText}) =>
-      '$search?query=${queryText ?? ''}';
-
-  static String getStoreRoute(int id, String page) =>
-      '$store?id=$id&page=$page';
-
-  static String getOrderDetailsRoute(int orderID) {
-    return '$orderDetails?id=$orderID';
-  }
-
-  static String getProfileRoute() => '$profile';
-
-  static String getUpdateProfileRoute() => '$updateProfile';
-
-  static String getCouponRoute() => '$coupon';
-
-  static String getNotificationRoute() => '$notification';
 
   static List<GetPage> routes = [
-    // GetPage(name: navbar, page: () => NavBarScreen()),
-    // // GetPage(name: requested_money, page: () => RequestedMoneyListScreen(isOwn: Get.parameters['from'] == 'won' ? true : false)),
-    // GetPage(name: initial, page: () => getRoute(DashboardScreen(pageIndex: 0))),
     GetPage(name: splash, page: () => const SplashScreen()),
     GetPage(name: signIn, page: () => const SignInScreen()),
     GetPage(name: main, page: () => const HomeScreent()),
-    // GetPage(
-    //     name: language,
-    //     page: () =>
-    //         ChooseLanguageScreen(fromMenu: Get.parameters['page'] == 'menu')),
-    // GetPage(name: onBoarding, page: () => OnBoardingScreen()),
-    // GetPage(
-    //     name: signIn,
-    //     page: () => SignInScreen(
-    //           exitFromApp: Get.parameters['page'] == signUp ||
-    //               Get.parameters['page'] == splash ||
-    //               Get.parameters['page'] == onBoarding,
-    //         )),
-    // GetPage(name: signUp, page: () => SignUpScreen()),
-    // GetPage(
-    //     name: verification,
-    //     page: () {
-    //       List<int> _decode =
-    //           base64Decode(Get.parameters['pass'].replaceAll(' ', '+'));
-    //       String _data = utf8.decode(_decode);
-    //       return VerificationScreen(
-    //         number: Get.parameters['number'],
-    //         fromSignUp: Get.parameters['page'] == signUp,
-    //         token: Get.parameters['token'],
-    //         password: _data,
-    //       );
-    //     }),
-    // GetPage(
-    //     name: accessLocation,
-    //     page: () => AccessLocationScreen(
-    //           fromSignUp: Get.parameters['page'] == signUp,
-    //           fromHome: Get.parameters['page'] == 'home',
-    //           route: null,
-    //         )),
-    // GetPage(
-    //     name: pickMap,
-    //     page: () {
-    //       PickMapScreen _pickMapScreen = Get.arguments;
-    //       bool _fromAddress = Get.parameters['page'] == 'add-address';
-    //       return ((Get.parameters['page'] == 'parcel' &&
-    //                   _pickMapScreen == null) ||
-    //               (_fromAddress && _pickMapScreen == null))
-    //           ? NotFound()
-    //           : _pickMapScreen != null
-    //               ? _pickMapScreen
-    //               : PickMapScreen(
-    //                   fromSignUp: Get.parameters['page'] == signUp,
-    //                   fromAddAddress: _fromAddress,
-    //                   route: Get.parameters['page'],
-    //                   canRoute: Get.parameters['route'] == 'true',
-    //                 );
-    //     }),
-    // GetPage(name: interest, page: () => InterestScreen()),
-    // GetPage(
-    //     name: main,
-    //     page: () => getRoute(DashboardScreen(
-    //           pageIndex: Get.parameters['page'] == 'home'
-    //               ? 0
-    //               : Get.parameters['page'] == 'favourite'
-    //                   ? 1
-    //                   : Get.parameters['page'] == 'cart'
-    //                       ? 2
-    //                       : Get.parameters['page'] == 'order'
-    //                           ? 3
-    //                           : Get.parameters['page'] == 'menu'
-    //                               ? 4
-    //                               : 0,
-    //         ))),
+    GetPage(
+        name: assetInfo,
+        page: () => InfoAssetScreen(code: Get.parameters['code']!)),
   ];
 
   static getRoute(Widget navigateTo) {

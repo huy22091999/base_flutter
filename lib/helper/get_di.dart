@@ -8,9 +8,12 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timesheet/controller/auth_controller.dart';
 import 'package:timesheet/controller/ccdc_controller.dart';
+import 'package:timesheet/controller/inventory_controller.dart';
 import 'package:timesheet/controller/scan_qr_controller.dart';
-import 'package:timesheet/data/repository/ccdc_repo.dart';
+import 'package:timesheet/data/repository/inventory_repo.dart';
+import 'package:timesheet/data/repository/scan_repo.dart';
 import 'package:timesheet/data/repository/splash_repo.dart';
+
 import '../controller/localization_controller.dart';
 import '../controller/splash_controller.dart';
 import '../data/api/api_client.dart';
@@ -28,23 +31,25 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => sharedPreferences);
   Get.lazyPut(() => firstCamera);
   Get.lazyPut(() => ApiClient(
-      appBaseUrl: AppConstants.BASE_URL, sharedPreferences: Get.find()));
+      appBaseUrl: AppConstants.BASE_URL, sharedPreferences: Get.find(), newAppBaseUrl: AppConstants.NEW_BASE_URL));
 
   // Repository
   Get.lazyPut(() => LanguageRepo());
   Get.lazyPut(
       () => AuthRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
 
+  Get.lazyPut(() => SplashRepo(apiClient: Get.find()));
+  Get.lazyPut(() => ScanRepo(apiClient: Get.find()));
   Get.lazyPut(
-          () => SplashRepo(apiClient: Get.find()));
-  Get.lazyPut(() => CCDCRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
+      () => InventoryRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
   // Controller
   Get.lazyPut(() => ThemeController(sharedPreferences: Get.find()));
   Get.lazyPut(() => LocalizationController(sharedPreferences: Get.find()));
   Get.lazyPut(() => SplashController(repo: Get.find()));
   Get.lazyPut(() => AuthController(repo: Get.find()));
   Get.lazyPut(() => CCDCController(repo: Get.find()));
-  Get.lazyPut(() => QrController());
+  Get.lazyPut(() => QrController(scanRepo: Get.find()));
+  Get.lazyPut(() => InventoryController(repo: Get.find()));
 
   if (await Permission.location.isGranted) {
     final newLocalData = await Geolocator.getCurrentPosition(

@@ -152,6 +152,20 @@ class _HomeScreentState extends State<HomeScreent> {
                               borderRadius: const BorderRadius.all(Radius.circular(10)),
                               color: ColorResources.getPrimaryColor(),
                             ),
+                            child: const Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: Column(
+                                children: [
+                                  Spacer(),
+                                  Icon(Icons.note_alt_outlined,color: Colors.white,size: 50,),
+                                  Spacer(),
+                                  Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Text("Báo hỏng",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         )),
                     const SizedBox(width: 10,),

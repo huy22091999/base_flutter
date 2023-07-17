@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:timesheet/controller/scan_qr_controller.dart';
 import 'package:timesheet/data/model/body/model_ccdc/ccdc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:timesheet/helper/route_helper.dart';
 
 class QRScannerPage extends StatefulWidget {
   const QRScannerPage({super.key});
@@ -137,15 +139,11 @@ class _QRScannerPageState extends State<QRScannerPage> {
   void openBottomSheet(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
-      if (!Get.find<QrController>().openBottomSheet) {
-        Get.find<QrController>().resetStatus();
-        showModalBottomSheet(
-          context: context,
-          builder: (BuildContext context) => SizedBox(
-            height: 200,
-            child: Center(child: Text("${scanData.code}")),
-          ),
-        ).then((value) => {Get.find<QrController>().resetStatus()});
+      final code = scanData.code;
+      if (code != null && code.isNotEmpty) {
+        String qrCode = code.substring(7, 18);
+        Get.toNamed(RouteHelper.getAccessInfo(qrCode));
+        // Get.find<QrController>().getInfoAsset(qrCode);
       }
     });
   }

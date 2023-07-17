@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:timesheet/screen/test1.dart';
+import 'package:timesheet/screen/home_screen.dart';
 
+import '../controller/auth_controller.dart';
 import '../controller/splash_controller.dart';
 import '../helper/route_helper.dart';
 import '../utils/dimensions.dart';
@@ -78,14 +79,16 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   _route() {
-    Timer(const Duration(milliseconds: 1500), () async {
-      Get.offNamed(RouteHelper.main);
-      // Get.to(() => Test1());
+    Get.find<AuthController>().getUser().then((value) => {
+      if (value == 200)
+        {
+          Get.to(const HomeScreent(),
+              transition: Transition.size,
+              duration: Duration(milliseconds: 500),
+              curve: Curves.easeIn)
+        }
+      else
+        {Get.offNamed(RouteHelper.signIn)}
     });
-    // Get.find<SplashController>().isUpdateVersion().then((value) => {
-    //       Timer(const Duration(seconds: 1000), () async {
-    //         Get.offNamed(RouteHelper.signIn);
-    //       })
-    //     });
   }
 }

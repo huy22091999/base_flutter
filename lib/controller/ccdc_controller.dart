@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:timesheet/data/api/api_checker.dart';
 import 'package:timesheet/data/model/body/model_ccdc/ccdc.dart';
-import 'package:timesheet/data/repository/ccdc_repo.dart';
+import 'package:timesheet/data/repository/inventory_repo.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../data/model/body/model_ccdc/item_content.dart';
@@ -9,7 +9,7 @@ import '../data/model/body/model_ccdc/item_content.dart';
 class CCDCController extends GetxController implements GetxService{
   final PagingController<int, ItemContent> _pagingController = PagingController(firstPageKey: 1);
 
-  final CCDCRepo repo;
+  final InventoryRepo repo;
   CCDCController({required this.repo});
   bool _loading = false;
   CCDC _ccdc = CCDC();

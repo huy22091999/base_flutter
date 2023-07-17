@@ -20,15 +20,15 @@ class NotificationHelper {
     flutterLocalNotificationsPlugin.initialize(initializationsSettings,
         onDidReceiveNotificationResponse:
             (NotificationResponse notificationResponse) async {
-      try {
-        if (notificationResponse.payload != null &&
-            notificationResponse.payload!.isNotEmpty) {
-          Get.toNamed(RouteHelper.getOrderDetailsRoute(
-              int.parse(notificationResponse.payload!)));
-        } else {
-          Get.toNamed(RouteHelper.getNotificationRoute());
-        }
-      } catch (e) {}
+      //try {
+        // if (notificationResponse.payload != null &&
+        //     notificationResponse.payload!.isNotEmpty) {
+        //   Get.toNamed(RouteHelper.getOrderDetailsRoute(
+        //       int.parse(notificationResponse.payload!)));
+        // } else {
+        //   Get.toNamed(RouteHelper.getNotificationRoute());
+        // }
+      //} catch (e) {}
       return;
     });
 
@@ -46,15 +46,15 @@ class NotificationHelper {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print(
           "onOpenApp: ${message.notification?.title}/${message.notification?.body}/${message.notification?.titleLocKey}");
-      try {
-        if (message.notification?.titleLocKey != null &&
-            message.notification!.titleLocKey!.isNotEmpty) {
-          Get.toNamed(RouteHelper.getOrderDetailsRoute(
-              int.parse(message.notification!.titleLocKey!)));
-        } else {
-          Get.toNamed(RouteHelper.getNotificationRoute());
-        }
-      } catch (e) {}
+    //   try {
+    //     if (message.notification?.titleLocKey != null &&
+    //         message.notification!.titleLocKey!.isNotEmpty) {
+    //       // Get.toNamed(RouteHelper.getOrderDetailsRoute(
+    //       //     int.parse(message.notification!.titleLocKey!)));
+    //     } else {
+    //       Get.toNamed(RouteHelper.getNotificationRoute());
+    //     }
+    //   } catch (e) {}
     });
   }
 
