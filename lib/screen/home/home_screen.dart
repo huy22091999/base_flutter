@@ -45,32 +45,36 @@ class _HomeScreentState extends State<HomeScreent> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const CircleAvatar(
-                          backgroundImage:
-                              AssetImage('assets/image/avatar.jpg'),
-                        ),
-                        Container(
-                            margin: const EdgeInsets.only(left: 8.0),
-                            child: GetBuilder<AuthController>
-                              (builder: (controller) => RichText(
-                              text: TextSpan(children: [
-                                const TextSpan(
-                                    text: 'Xin chào,',
-                                    style: TextStyle(color: Colors.black)),
-                                TextSpan(
-                                    text: '\n${controller.user.displayName}',
+                    Container(
+                        margin: const EdgeInsets.only(left: 8.0),
+                        child: GetBuilder<AuthController>
+                          (builder: (controller) => Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      SvgPicture.asset(
+                                        'assets/image/waving_hand_icon.svg',
+                                        width: 20,
+                                        height: 20,
+                                      ),
+                                      const Text(
+                                        ' Xin chào',
+                                        style: TextStyle(fontSize: 16),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(height: 4,),
+                                  Text(
+                                    controller.user.displayName ?? "",
                                     style: TextStyle(
                                         color: ColorResources.getMainColor(),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16.0))
-                              ]),
-                            )),
-                            )
-                      ],
-                    ),
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700),
+                                  )
+                                ],
+                              )),
+                        ),
                     Container(),
                     GestureDetector(
                       onTap: (){
@@ -135,7 +139,7 @@ class _HomeScreentState extends State<HomeScreent> {
                                 child: Column(
                                   children: [
                                     const Spacer(),
-                                    Image.asset('assets/image/inventory_icon.png',height: 70,width: 70,filterQuality: FilterQuality.high,),
+                                    SvgPicture.asset('assets/image/inventory_icon.svg'),
                                     const Spacer(),
                                     const Align(
                                       alignment: Alignment.bottomCenter,
@@ -164,7 +168,7 @@ class _HomeScreentState extends State<HomeScreent> {
                               child: Column(
                                 children: [
                                   const Spacer(),
-                                  Image.asset('assets/image/broken_report_icon.png',height: 70,width: 70,filterQuality: FilterQuality.high,),
+                                  SvgPicture.asset('assets/image/broken_report_icon.svg'),
                                   const Spacer(),
                                   const Align(
                                     alignment: Alignment.bottomCenter,
@@ -194,7 +198,7 @@ class _HomeScreentState extends State<HomeScreent> {
                                 child: Column(
                                   children: [
                                     const Spacer(),
-                                    Image.asset('assets/image/note_icon.png',height: 70,width: 70,filterQuality: FilterQuality.high,),
+                                    SvgPicture.asset('assets/image/note_icon.svg'),
                                     const Spacer(),
                                     const Align(
                                       alignment: Alignment.bottomCenter,
@@ -213,12 +217,5 @@ class _HomeScreentState extends State<HomeScreent> {
             ),
           ),
         ));
-  }
-
-  void getUser() {
-    Get.find<AuthController>().getUser().then((value) => {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text("$value")))
-        });
   }
 }

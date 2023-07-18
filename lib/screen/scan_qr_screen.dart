@@ -9,6 +9,8 @@ import 'package:timesheet/controller/scan_qr_controller.dart';
 import 'package:timesheet/data/model/body/model_ccdc/ccdc.dart';
 import 'package:timesheet/helper/route_helper.dart';
 
+import 'list_inventory_screen/value_scan_screen.dart';
+
 class QRScannerPage extends StatefulWidget {
   const QRScannerPage({super.key});
 
@@ -110,21 +112,23 @@ class _QRScannerPageState extends State<QRScannerPage> {
       if (!Get.find<QrController>().scanSuccess) {
         Get.find<QrController>().resetStatus();
         var data = scanData.code;
-        CCDC ccdc = CCDC(
-            timestamp: data?.substring(7, 18),
-            message: data?.substring(19, 30),
-            apiSubErrors: data?.substring(30, 36));
-        Get.find<QrController>().addItem(ccdc).then((value) => {
-              if (value)
-                {
-                  controller.dispose(),
-                  Timer(const Duration(seconds: 1), () {
-                    Get.find<QrController>().resetStatus();
-                    Navigator.pop(context);
-                    showToast();
-                  })
-                }
-            });
+        dispose();
+        Get.to(() => const ValueScanScreen());
+        // CCDC ccdc = CCDC(
+        //     timestamp: data?.substring(7, 18),
+        //     message: data?.substring(19, 30),
+        //     apiSubErrors: data?.substring(30, 36));
+        // Get.find<QrController>().addItem(ccdc).then((value) => {
+        //       if (value)
+        //         {
+        //           controller.dispose(),
+        //           Timer(const Duration(seconds: 1), () {
+        //             Get.find<QrController>().resetStatus();
+        //             Navigator.pop(context);
+        //             showToast();
+        //           })
+        //         }
+        //     });
         // showModalBottomSheet(
         //   context: context,
         //   builder: (BuildContext context) =>  SizedBox(

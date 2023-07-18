@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'assets_voucher.dart';
 
 class ItemContent{
@@ -46,12 +44,7 @@ class ItemContent{
 
   ItemContent.fromJson(Map<String,dynamic> json){
     List<dynamic> list = json['assetVouchers'] ?? [];
-    assetVouchers = [];
-    for (var item in list) {
-      if (item is Map<String, dynamic>) {
-        assetVouchers!.add(AssetsVoucher.fromJson(item));
-      }
-    }
+    assetVouchers = list.map((item) => AssetsVoucher.fromJson(item)).toList();
     List<dynamic> listDate = json['createDate']??[];
     List<int> createDates = listDate.cast<int>().toList();
     id = json['id'];

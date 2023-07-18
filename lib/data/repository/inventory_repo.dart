@@ -24,8 +24,8 @@ class InventoryRepo {
     return await apiClient.getData(AppConstants.GET_ALLOCATION_VOUCHERS);
   }
 
-  Future<Response> getAllDepartment() async {
-    Map<String, dynamic> query = {'pageIndex': '1', 'pageSize': '100'};
+  Future<Response> getAllDepartment(int pageIndex) async {
+    Map<String, dynamic> query = {'pageIndex': '$pageIndex', 'pageSize': '10'};
     return await apiClient.postDataNewApi(
         AppConstants.GET_DEPARTMENT, query, null);
   }
@@ -34,5 +34,4 @@ class InventoryRepo {
     Map<String, dynamic> query = {'useDepartmentId' : idDepartment};
     return await apiClient.getDataNewApi(AppConstants.GET_ITEM_DEPARTMENT,query: query,headers: null);
   }
-
 }

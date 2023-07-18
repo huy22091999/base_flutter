@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:timesheet/data/model/response/asset_info.dart';
 import 'package:timesheet/utils/color_resources.dart';
-
-import '../../data/model/body/model_ccdc/ccdc.dart';
+import 'package:intl/intl.dart';
 
 class Item extends StatelessWidget{
-  final CCDC ccdc;
-  const Item({super.key, required this.ccdc});
+  final AssetInfo asset;
+  const Item({super.key, required this.asset});
 
   @override
   Widget build(BuildContext context) {
@@ -27,24 +27,24 @@ class Item extends StatelessWidget{
               children: [
                 Align(
                     alignment: Alignment.topCenter,
-                    child: Text('TS-00000001',style: style,),
+                    child: Text('${asset.code}',style: style,),
                 ),
                 const SizedBox(height: 14,),
-                Text('Bàn vi tính hòa phát (0,6x1,2)m',style: style,),
+                Text('${asset.name}',style: style,),
                 const SizedBox(height: 10,),
                 Row(
                   children: [
                     RichText(text: TextSpan(
                       children: [
                         const TextSpan(text: 'Nguyên giá: ',style: TextStyle(color: Colors.black)),
-                        TextSpan(text: '${ccdc.message}',style: const TextStyle(color: Colors.deepOrange))
+                        TextSpan(text: getAmount(asset.originalCost),style: const TextStyle(color: Colors.deepOrange))
                       ]
                     )),
                     const Spacer(),
                     RichText(text: TextSpan(
                         children: [
                           const TextSpan(text: 'GTCL: ',style: TextStyle(color: Colors.black)),
-                          TextSpan(text: '${ccdc.timestamp}',style: const TextStyle(color: Colors.deepOrange))
+                          TextSpan(text: getAmount(asset.unitPrice),style: const TextStyle(color: Colors.deepOrange))
                         ]
                     )),
                   ],
@@ -53,7 +53,7 @@ class Item extends StatelessWidget{
                 RichText(text: TextSpan(
                     children: [
                       const TextSpan(text: 'Mã quản lý: ',style: TextStyle(color: Colors.black)),
-                      TextSpan(text: '${ccdc.apiSubErrors}',style: const TextStyle(color: Colors.deepOrange))
+                      TextSpan(text: '${asset.managementCode}',style: const TextStyle(color: Colors.deepOrange))
                     ]
                 )),
               ],
@@ -62,5 +62,9 @@ class Item extends StatelessWidget{
         ],
       ),
     );
+  }
+  String getAmount(double? price){
+    String formattedAmount = NumberFormat.currency(locale: 'vi_VN', symbol: '₫').format(price);
+    return formattedAmount;
   }
 }

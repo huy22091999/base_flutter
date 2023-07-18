@@ -129,10 +129,12 @@ class _InfoAssetScreenState extends State<InfoAssetScreen> {
 
   Widget textInfo(String title, String content, {bool? isPrice}) {
     String value = "";
-    try {
-      value = getAmount(double.parse(content));
-    } catch (e) {
-      value = content;
+    if(isPrice != null && isPrice){
+      try {
+        value = getAmount(double.parse(content));
+      } catch (e) {
+        value = content;
+      }
     }
     return Container(
         margin: const EdgeInsets.only(top: 8),
@@ -264,10 +266,10 @@ class _InfoAssetScreenState extends State<InfoAssetScreen> {
           color: Colors.green,
         ),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12),
           child: Text(
             content,
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
           ),
         ),

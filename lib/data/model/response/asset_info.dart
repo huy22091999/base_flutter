@@ -141,12 +141,12 @@ class AssetInfo {
   late final String? model;
   late final Null usedTime;
   late final Null warrantyMonth;
-  late final String? note ;
+  String? note ;
   late final Null attributes;
   late final int? yearPutIntoUse;
   late final bool isCheck;
   late final Null documents;
-  late final bool isTemporary;
+  late final bool? isTemporary;
   late final bool isManageAccountant;
   late final Null store;
   late final DateTime? dateOfReception;
@@ -235,9 +235,10 @@ class AssetInfo {
     yearPutIntoUse = json['yearPutIntoUse'] ?? null;
     isCheck = json['isCheck'];
     documents = null;
-    isTemporary = json['isTemporary'];
+    isTemporary = json['isTemporary'] ?? null;
     isManageAccountant = json['isManageAccountant'];
     store = null;
+    note = json['note'];
     dateOfReception =
         DateTime.fromMicrosecondsSinceEpoch(json['dateOfReception']);
     managementDepartmentCode = null;
@@ -332,7 +333,7 @@ class AssetInfo {
     _data['isTemporary'] = isTemporary;
     _data['isManageAccountant'] = isManageAccountant;
     _data['store'] = store;
-    // _data['dateOfReception'] = dateOfReception !=null ?? ;
+    _data['dateOfReception'] = dateOfReception != null ? dateOfReception?.millisecond : 0 ;
     _data['managementDepartmentCode'] = managementDepartmentCode;
     _data['managementPurchaseDepartmentCode'] =
         managementPurchaseDepartmentCode;
@@ -769,9 +770,9 @@ class ManagementDepartment {
   late final String name;
   late final int departmentType;
   late final Null parentId;
-  late final Parent parent;
+  late final Parent? parent;
   late final List<dynamic> subDepartments;
-  late final List<dynamic> children;
+  late final List<dynamic>? children;
   late final Null dupName;
   late final Null dupCode;
   late final Null displayOrder;
@@ -786,7 +787,7 @@ class ManagementDepartment {
   late final Null totalOriginalCost;
   late final Null totalDepreciationValue;
   late final Null listAssetDepartmentChild;
-  late final String text;
+  late final String? text;
   late final bool duplicate;
 
   ManagementDepartment.fromJson(Map<String, dynamic> json) {
@@ -795,24 +796,24 @@ class ManagementDepartment {
     name = json['name'];
     departmentType = json['departmentType'];
     parentId = null;
-    parent = Parent.fromJson(json['parent']);
-    subDepartments = List.castFrom<dynamic, dynamic>(json['subDepartments']);
-    children = List.castFrom<dynamic, dynamic>(json['children']);
+    parent = json['parent'] != null ? Parent.fromJson(json['parent']) : null;
+    subDepartments = json['subDepartments'] != null ? List.castFrom<dynamic, dynamic>(json['subDepartments']) : [];
+    children = json['children'] != null ? List.castFrom<dynamic, dynamic>(json['children']) : [];
     dupName = null;
     dupCode = null;
     displayOrder = null;
     level = null;
     linePath = null;
     shortName = null;
-    isAssetManagement = json['isAssetManagement'];
-    viewIndex = json['viewIndex'];
+    isAssetManagement = json['isAssetManagement'] ?? false;
+    viewIndex = json['viewIndex'] ?? "";
     parentDepartmentCode = null;
     quantity = null;
     remainQuantity = null;
     totalOriginalCost = null;
     totalDepreciationValue = null;
     listAssetDepartmentChild = null;
-    text = json['text'];
+    text = json['text'] ?? null;
     duplicate = json['duplicate'];
   }
 
@@ -823,7 +824,7 @@ class ManagementDepartment {
     _data['name'] = name;
     _data['departmentType'] = departmentType;
     _data['parentId'] = parentId;
-    _data['parent'] = parent.toJson();
+    _data['parent'] = parent?.toJson();
     _data['subDepartments'] = subDepartments;
     _data['children'] = children;
     _data['dupName'] = dupName;

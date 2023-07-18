@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:timesheet/controller/inventory_controller.dart';
 import 'package:timesheet/controller/scan_qr_controller.dart';
+import 'package:timesheet/data/model/response/asset_info.dart';
 import 'package:timesheet/screen/list_inventory_screen/item.dart';
 import 'package:timesheet/screen/scan_qr_screen.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../utils/color_resources.dart';
 
@@ -18,10 +20,13 @@ class ListInventoryScreen extends StatefulWidget {
 
 class _ListInventoryScreenState extends State<ListInventoryScreen>
     with TickerProviderStateMixin {
+  final _loading = true.obs;
   @override
   void initState() {
+    Get.find<InventoryController>().getItemOfDepartment(widget.id).then((value) => {
+      _loading.value = false
+    });
     super.initState();
-    Get.find<InventoryController>().getItemOfDepartment(widget.id);
   }
 
   @override
@@ -55,6 +60,26 @@ class _ListInventoryScreenState extends State<ListInventoryScreen>
         title: const Text('Kiểm kê TSCĐ',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold)),
         centerTitle: true,
         elevation: 0,
+        actions: [
+          GestureDetector(
+            onTap: (){
+              Get.to(() => const QRScannerPage(),arguments: 'Inventory');
+            },
+            child: Container(
+                margin: const EdgeInsets.only(top: 16,right: 16),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: ColorResources.getMainColor()),
+                child: ColorFiltered(
+                  colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                  child: Lottie.asset(
+                      'assets/animationFile/qr_scan_animation.json',
+                      fit: BoxFit.contain,
+                      height: 48,
+                      width: 48),
+                )),
+          )
+        ],
       ),
       body: SafeArea(
         child: Container(
@@ -70,7 +95,7 @@ class _ListInventoryScreenState extends State<ListInventoryScreen>
                       borderRadius: const BorderRadius.all(Radius.circular(16)),
                       color: Colors.grey.shade300),
                   child:  TabBar(
-                    controller: TabController(length: 2,vsync: this),
+                    controller: TabController(length: 3,vsync: this),
                     indicator: BoxDecoration(
                         borderRadius: const BorderRadius.all(Radius.circular(16)),
                         color: ColorResources.getMainColor()
@@ -80,46 +105,40 @@ class _ListInventoryScreenState extends State<ListInventoryScreen>
                     labelStyle: const TextStyle(fontWeight: FontWeight.bold),
                     tabs: const [
                       Tab(text: 'Chưa kiểm kê',),
-                      Tab(text: 'Đã kiểm kê',)
+                      Tab(text: 'Đã kiểm kê',),
+                      Tab(text: 'Ghi chú',)
                     ],
                   ),
                 ),
                 const SizedBox(height: 20,),
-                SizedBox(
-                  width: width,
-                  height: 40,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Get.to(() => const QRScannerPage(),
-                          arguments: "Inventory");
-                    },
-                    style: ElevatedButton.styleFrom(
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(7)),
-                        ),
-                        backgroundColor: ColorResources.getMainColor()),
-                    child: const Text(
-                      'QUÉT MÃ QR',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
+                Obx(
+                  () => _loading.value
+                      ? SizedBox(
+                        height: height * 0.6,
+                        child: Center(
+                            child: CircularProgressIndicator(color: ColorResources.getMainColor(),),
+                          ),
+                      )
+                      : SizedBox(
+                          height: height * 0.6,
+                          child: GetBuilder<InventoryController>(
+                            builder: (controller) =>
+                                controller.listAsset != null &&
+                                        controller.listAsset!.isNotEmpty
+                                    ? ListView.builder(
+                                        shrinkWrap: true,
+                                        controller: ScrollController(),
+                                        itemCount: controller.listAsset!.length,
+                                        itemBuilder: (context, index) {
+                                          return Item(
+                                            asset: controller.listAsset![index],
+                                          );
+                                        })
+                                    : const Center(
+                                        child: Text('Không có bản ghi nào'),
+                                      ),
+                          )),
                 ),
-                const SizedBox(height: 20,),
-                SizedBox(
-                    height: height * 0.6,
-                    child: GetBuilder<QrController>(
-                      builder: (controller) => controller.list.isNotEmpty
-                          ? ListView.builder(
-                              shrinkWrap: true,
-                              controller: ScrollController(),
-                              itemCount: controller.list.length,
-                              itemBuilder: (context, index) {
-                                return Item(ccdc: controller.list[index]);
-                              })
-                          : const Center(
-                              child: Text('Không có bản ghi nào'),
-                            ),
-                    )),
                 const Spacer(),
                 ElevatedButton(
                     onPressed: (){},

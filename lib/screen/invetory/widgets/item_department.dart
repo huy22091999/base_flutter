@@ -37,12 +37,7 @@ class ItemDepartment extends StatelessWidget {
                 const SizedBox(width: 6,),
                 ElevatedButton(
                   onPressed: () {
-                    // Get.find<InventoryController>().getItemOfDepartment(department.id!);
-                    // Get.to(() => const ListInventoryScreen(),
-                    //     transition: Transition.rightToLeftWithFade,
-                    //     duration: const Duration(milliseconds: 400));
-
-                    Get.offNamed(RouteHelper.getListInventory(department.id!));
+                    Get.toNamed(RouteHelper.getListInventory(department.id!));
                   },
                   style: ElevatedButton.styleFrom(
                       shape: const RoundedRectangleBorder(

@@ -1,7 +1,9 @@
 
+import 'asset_info.dart';
+
 class OctResponse {
 
-  late final String code;
+  late final int code;
   late final String message;
   late final String timestamp;
   late final int total;

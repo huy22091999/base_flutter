@@ -18,11 +18,17 @@ class InventoryScreen extends StatefulWidget {
 class _InventoryScreenState extends State<InventoryScreen> {
   var fromDate = DateFormat('dd/MM/yyyy').format(DateTime.now()).obs;
   var toDate = DateFormat('dd/MM/yyyy').format(DateTime.now()).obs;
+  var pageIndex = 1.obs;
   final _status = 'Chưa KK'.obs;
+  var fetchLoading = false.obs;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
-    Get.find<InventoryController>().getDepartment();
+    Get.find<InventoryController>().getDepartment(1);
+    _scrollController.addListener(() {
+      fetchData();
+    });
     super.initState();
   }
   @override
@@ -267,17 +273,23 @@ class _InventoryScreenState extends State<InventoryScreen> {
                     ? Center(child: CircularProgressIndicator(color: ColorResources.getMainColor(),),)
                     : controller.listDepartment != null &&
                             controller.listDepartment!.isNotEmpty
-                        ? ListView.builder(
-                            controller: ScrollController(),
-                            shrinkWrap: true,
-                            itemCount: controller.listDepartment?.length,
-                            itemBuilder: (context, index) => ItemDepartment(
-                                  department: controller.listDepartment![index],
-                                ))
-                        : const Text("Không có phòng ban hiển thị");
+                        ? Scrollbar(
+                            child: ListView.builder(
+                                controller: _scrollController,
+                                shrinkWrap: true,
+                                itemCount: controller.listDepartment!.length,
+                                itemBuilder: (context, index) => ItemDepartment(
+                                      department: controller.listDepartment![index],
+                                    )),
+                          )
+                        : const Center(child: Text("Không có phòng ban hiển thị"));
               },
             ),
           ),
+          Obx(() => Visibility(
+              visible: fetchLoading.value,
+              child: Center(child: CircularProgressIndicator(color: ColorResources.getMainColor(),),)
+          ))
         ]),
       ),
     );
@@ -290,6 +302,15 @@ class _InventoryScreenState extends State<InventoryScreen> {
       firstDate: DateTime(2015, 8),
       lastDate: DateTime(2101),
       locale: const Locale('vi', 'VN'),
+      builder: (BuildContext context, Widget? child) => Theme(
+          data: Theme.of(context).copyWith(
+              colorScheme: ColorScheme.light(
+                primary: ColorResources.getMainColor(), // header background color
+                onPrimary: Colors.white, // header text color
+                onSurface: Colors.black, // body text color
+              ),
+      ), child: child!,
+      )
     );
     if (picked != null) {
       switch (index) {
@@ -307,5 +328,18 @@ class _InventoryScreenState extends State<InventoryScreen> {
 
   void setStatusInventory(String value) {
     _status.value = value;
+  }
+
+  void fetchData(){
+    if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
+      fetchLoading.value = true;
+      pageIndex.value += 1;
+      Get.find<InventoryController>().getDepartment(pageIndex.value).then((value) => fetchLoading.value = false);
+    }
+  }
+  @override
+  void dispose() {
+    Get.find<InventoryController>().clearData();
+    super.dispose();
   }
 }
