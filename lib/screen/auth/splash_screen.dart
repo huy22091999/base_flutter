@@ -58,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Get.find<AuthController>().getCurrentUser().then((value) => {
           if (value == 0)
             {
-              Get.off(() => const SplashScreen(),
+              Get.off(() => const MainScreen(),
                   transition: Transition.native,
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.easeIn)
