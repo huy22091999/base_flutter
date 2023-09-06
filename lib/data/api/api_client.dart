@@ -68,13 +68,13 @@ class ApiClient extends GetxService {
     try {
       String requestBody = jsonEncode(body);
       if (Foundation.kDebugMode) {
-        print('====> API Call: $uri\nHeader: $_mainHeaders');
+        print('====> API Call: $uri\nHeader: $headers');
         print('====> API Body: $requestBody');
       }
       Http.Response _response = await Http.post(
         Uri.parse(appBaseUrl + uri),
         body: body,
-        headers: _mainHeaders,
+        headers: headers,
       ).timeout(Duration(seconds: timeoutInSeconds));
       return handleResponse(_response, uri);
     } catch (e) {
@@ -90,7 +90,7 @@ class ApiClient extends GetxService {
       }
       Http.Response _response = await Http.post(
         Uri.parse(appBaseUrl + uri),
-        body: body,
+        body: jsonEncode(body),
         headers: headers,
       ).timeout(Duration(seconds: timeoutInSeconds));
       return handleResponse(_response, uri);
@@ -167,7 +167,7 @@ class ApiClient extends GetxService {
   Response handleResponse(Http.Response response, String uri) {
     dynamic _body;
     try {
-      _body = jsonDecode(response.body);
+      _body = jsonDecode(utf8.decode(response.bodyBytes));
     } catch (e) {}
     Response _response = Response(
       body: _body ?? response.body,

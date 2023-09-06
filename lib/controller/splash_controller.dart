@@ -8,11 +8,14 @@ class SplashController extends GetxController implements GetxService {
 
   SplashController({required this.repo});
 
-  bool _hasConnection = true;
+  String _hospitalName = '';
+  String get hospitalName => _hospitalName;
+
+  final bool _hasConnection = true;
 
   bool get hasConnection => _hasConnection;
 
-  String _version = "";
+  final String _version = "";
 
   String get version => _version;
 
@@ -25,5 +28,11 @@ class SplashController extends GetxController implements GetxService {
     //   return false;
     // }
     return true;
+  }
+  Future<void> getHospitalName() async {
+    Response response = await repo.getHospitalName();
+    if (response.statusCode == 200) {
+      _hospitalName = response.body['data'];
+    }
   }
 }

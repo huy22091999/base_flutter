@@ -1,63 +1,64 @@
-
 class User {
-  int? id;
-  String? username;
-  bool? active;
-  String? birthPlace;
-  String? confirmPassword;
-  String? displayName;
-  String? dob;
+  int? status;
+  String? userName;
   String? email;
-  String? firstName;
-  String? lastName;
-  String? password;
+  String? khoaPhong;
+  List<MListModule>? mListModule;
 
-  User({
-    this.id,
-    this.username,
-    this.active,
-    this.birthPlace,
-    this.confirmPassword,
-    this.displayName,
-    this.dob,
-    this.email,
-    this.firstName,
-    this.lastName,
-    this.password,
-  });
+  User(
+      {this.status,
+        this.userName,
+        this.email,
+        this.khoaPhong,
+        this.mListModule});
+
   User.fromJson(Map<String, dynamic> json) {
-    // List<dynamic> listRoles = json['roles']??[];
-    // List<Role> rolesList = listRoles.cast<Role>().toList();
-    id = json['id'];
-    username = json['username'];
-    active = json['active'];
-    birthPlace = json['birthPlace'];
-    confirmPassword = json['confirmPassword'];
-    displayName = json['displayName'];
-    dob = json['dob'];
-    email = json['email'];
-    firstName = json['firstName'];
-    lastName = json['lastName'];
-    password = json['password'];
+    status = json['Status'];
+    userName = json['UserName'];
+    email = json['Email'];
+    khoaPhong = json['KhoaPhong'];
+    if (json['mListModule'] != null) {
+      mListModule = <MListModule>[];
+      json['mListModule'].forEach((v) {
+        mListModule!.add(MListModule.fromJson(v));
+      });
+    }
   }
+
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'username':username,
-      'active':active,
-      'birthPlace':birthPlace,
-      'confirmPassword':confirmPassword,
-      "displayName":displayName,
-      'dob':dob,
-      'email':email,
-      'firstName':firstName,
-      'lastName':lastName,
-      'password':password,
-      // 'roles': roles?.map((roles) => roles.toJson()).toList(),
-      // 'university':university,
-      // 'year':year,
-      // 'gender':gender,
-      // 'hasPhoto':hasPhoto
-    };
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['Status'] = status;
+    data['UserName'] = userName;
+    data['Email'] = email;
+    data['KhoaPhong'] = khoaPhong;
+    if (mListModule != null) {
+      data['mListModule'] = mListModule!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class MListModule {
+  int? iD;
+  String? page;
+  String? name;
+  String? icon;
+
+  MListModule({this.iD, this.page, this.name, this.icon});
+
+  MListModule.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    page = json['Page'];
+    name = json['Name'];
+    icon = json['Icon'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['Page'] = page;
+    data['Name'] = name;
+    data['Icon'] = icon;
+    return data;
   }
 }

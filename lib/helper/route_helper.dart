@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:timesheet/screen/home_screen.dart';
-import 'package:timesheet/screen/sign_in/sign_in_screen.dart';
-import '../screen/splash/splash_screen.dart';
+import 'package:timesheet/screen/main_screen.dart';
+import 'package:timesheet/screen/auth/sign_in_screen.dart';
+import 'package:timesheet/screen/pantient/patient_screen.dart';
+import 'package:timesheet/screen/treatment_screen/treatment_screen.dart';
+import '../screen/auth/splash_screen.dart';
 
 class RouteHelper {
   static const String initial = '/';
@@ -27,6 +29,8 @@ class RouteHelper {
   static const String coupon = '/coupon';
   static const String notification = '/notification';
   static const String navbar = '/navbar';
+  static const String patient = '/patient';
+  static const String treatment = '/treatment';
 
   static String getInitialRoute() => '$initial';
 
@@ -82,8 +86,9 @@ class RouteHelper {
   static List<GetPage> routes = [
     GetPage(name: splash, page: () => const SplashScreen()),
     GetPage(name: signIn, page: () => const SignInScreen()),
-    GetPage(name: main, page: () => const HomeScreen()),
-
+    GetPage(name: main, page: () => const MainScreen()),
+    GetPage(name: patient, page: () => const PatientScreen()),
+    GetPage(name: treatment, page: () => const TreatmentScreen()),
   ];
 
   static getRoute(Widget navigateTo) {

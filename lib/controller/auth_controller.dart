@@ -19,18 +19,20 @@ class AuthController extends GetxController implements GetxService {
   Future<int> login(String username, String password) async {
     _loading = true;
     update();
-    Response response =
-        await repo.login(username: username, password: password);
+    TokenResponsive? tokeBody;
+    Response response = await repo.login(username: username, password: password);
     if (response.statusCode == 200) {
-      TokenResponsive tokeBody = TokenResponsive.fromJson(response.body);
-      repo.saveUserToken(tokeBody.accessToken!);
+      tokeBody = TokenResponsive.fromJson(response.body);
+      if(tokeBody.Status == 0){
+        repo.saveUserToken(tokeBody.ClientID!);
+      }
     }
     else {
       ApiChecker.checkApi(response);
     }
     _loading = false;
     update();
-    return response.statusCode!;
+    return tokeBody?.Status ?? 2;
   }
   Future<int> logOut() async {
     _loading = true;
@@ -51,10 +53,7 @@ class AuthController extends GetxController implements GetxService {
       _user = User.fromJson(response.body);
       update();
     }
-    else {
-      ApiChecker.checkApi(response);
-    }
-    return response.statusCode!;
+    return _user.status ?? 1;
   }
   void clearData(){
     _loading = false;

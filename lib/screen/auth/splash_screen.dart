@@ -1,11 +1,12 @@
 import 'dart:async';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:timesheet/controller/auth_controller.dart';
-import 'package:timesheet/screen/home_screen.dart';
-
+import 'package:timesheet/screen/auth/sign_in_screen.dart';
+import 'package:timesheet/screen/home/home_screen.dart';
+import 'package:timesheet/screen/main_screen.dart';
+import 'package:timesheet/utils/color_resources.dart';
 import '../../controller/splash_controller.dart';
 import '../../helper/route_helper.dart';
 import '../../utils/dimensions.dart';
@@ -20,37 +21,12 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  GlobalKey<ScaffoldState> _globalKey = GlobalKey();
-  late StreamSubscription<ConnectivityResult> _onConnectivityChanged;
 
   @override
   void initState() {
     super.initState();
-    bool _firstTime = true;
-    _onConnectivityChanged = Connectivity()
-        .onConnectivityChanged
-        .listen((ConnectivityResult result) {
-      if (!_firstTime) {
-        bool isNotConnected = result != ConnectivityResult.wifi &&
-            result != ConnectivityResult.mobile;
-        isNotConnected
-            ? SizedBox()
-            : ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: isNotConnected ? Colors.red : Colors.green,
-          duration: Duration(seconds: isNotConnected ? 6000 : 3),
-          content: Text(
-            isNotConnected ? 'no_connection'.tr : 'connected'.tr,
-            textAlign: TextAlign.center,
-          ),
-        ));
-        if (!isNotConnected) {
-          _route();
-        }
-      }
-      _firstTime = false;
-    });
-    _route();
+    Get.find<SplashController>().getHospitalName();
+    Timer(1.5.seconds, () {_route(); });
   }
 
   @override
@@ -60,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
         return Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          color: Colors.white,
+          color: ColorResources.getPrimaryColor(),
           child: Center(
             child: splashController.hasConnection
                 ? Column(
@@ -80,11 +56,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
   _route() {
     Get.find<AuthController>().getCurrentUser().then((value) => {
-          if (value == 200)
+          if (value == 0)
             {
-              Get.to(const HomeScreen(),
-                  transition: Transition.size,
-                  duration: Duration(milliseconds: 500),
+              Get.off(() => const SplashScreen(),
+                  transition: Transition.native,
+                  duration: const Duration(milliseconds: 500),
                   curve: Curves.easeIn)
             }
           else

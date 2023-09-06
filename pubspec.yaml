@@ -83,7 +83,6 @@ dev_dependencies:
       url: https://github.com/MR0100/fancy_snackbar.git
 
   connectivity_plus: ^4.0.1
-  cupertino_icons: ^1.0.5
   flutter_contacts: ^1.1.5+1
   azlistview: ^2.0.0
   modal_bottom_sheet: ^2.1.2
@@ -122,6 +121,9 @@ dev_dependencies:
   google_fonts: ^4.0.4
   infinite_scroll_pagination: ^3.2.0
   salomon_bottom_bar: ^3.3.2
+  badges: ^3.1.2
+  dropdown_button2: ^2.3.9
+
 flutter_icons:
   android: "launcher_icon"
   ios: true

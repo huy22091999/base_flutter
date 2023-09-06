@@ -1,25 +1,19 @@
 import 'dart:io';
-
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
-import 'package:timesheet/screen/splash/splash_screen.dart';
 import 'package:timesheet/theme/dark_theme.dart';
 import 'package:timesheet/theme/light_theme.dart';
 import 'package:timesheet/theme/theme_controller.dart';
 import 'package:timesheet/utils/app_constants.dart';
 import 'package:timesheet/utils/messages.dart';
 import 'package:url_strategy/url_strategy.dart';
-
 import 'controller/localization_controller.dart';
 import 'firebase_options.dart';
 import 'helper/get_di.dart' as di;
-import 'helper/notification_helper.dart';
 import 'helper/responsive_helper.dart';
 import 'helper/route_helper.dart';
 
@@ -37,15 +31,6 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  try {
-    if (GetPlatform.isMobile) {
-      final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-          FlutterLocalNotificationsPlugin();
-      await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
-      FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
-    }
-  } catch (e) {}
 
   Map<String, Map<String, String>> _languages = await di.init();
 

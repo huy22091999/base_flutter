@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
@@ -16,27 +17,18 @@ class AuthRepo {
 
   AuthRepo({required this.apiClient, required this.sharedPreferences});
 
-  Future<Response> login(
-      {required String username, required String password}) async {
+  Future<Response> login({required String username, required String password}) async {
     //header login
-    var token = "Basic Y29yZV9jbGllbnQ6c2VjcmV0";
-    var languageCode = sharedPreferences.getString(AppConstants.LANGUAGE_CODE);
-    Map<String, String> _header = {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      AppConstants.LOCALIZATION_KEY:
-          languageCode ?? AppConstants.languages[0].languageCode,
-      'Authorization': '$token'
+    Map<String, String> header = {
+      'Content-Type': 'application/json',
     };
-    //call api login
     return await apiClient.postDataLogin(
         AppConstants.LOGIN_URI,
         TokenRequest(
-                username: username,
-                password: password,
-                clientId: "core_client",
-                clientSecret: "secret",
-                grantType: "password")
-            .toJson(),_header);
+          Username: username,
+          Password: password,
+        ).toJson(),
+        header);
   }
 
   Future<Response> logOut() async {
@@ -44,30 +36,33 @@ class AuthRepo {
   }
 
   Future<Response> getCurrentUser() async{
-    return await apiClient.getData(AppConstants.GET_USER);
+    String? clientID = sharedPreferences.getString(AppConstants.TOKEN);
+    Map<String,String> header = {
+      "Content-Type" : "application/json"
+    };
+    Map<String,String> body = {
+      "ClientID" : clientID ?? ''
+    };
+    return await apiClient.postData(AppConstants.GET_USER,jsonEncode(body),header);
   }
 
 
   Future<String> _saveDeviceToken() async {
-    String? _deviceToken = '@';
+    String? deviceToken = '@';
     if (!GetPlatform.isWeb) {
       try {
-        _deviceToken = await FirebaseMessaging.instance.getToken();
+        deviceToken = await FirebaseMessaging.instance.getToken();
       } catch (e) {}
     }
-    if (_deviceToken != null) {
-      print('--------Device Token---------- ' + _deviceToken);
+    if (deviceToken != null) {
+      print('--------Device Token---------- ' + deviceToken);
     }
-    return _deviceToken!;
+    return deviceToken!;
   }
 
   // for  user token
   Future<bool> saveUserToken(String token) async {
-    apiClient.token = "Bearer $token";
-    apiClient.updateHeader("Bearer $token", null,
-        sharedPreferences.getString(AppConstants.LANGUAGE_CODE) ?? "vi", 0);
-    return await sharedPreferences.setString(
-        AppConstants.TOKEN, "Bearer $token");
+    return await sharedPreferences.setString(AppConstants.TOKEN, token);
   }
   Future<bool> clearUserToken() async {
     return await sharedPreferences.remove(AppConstants.TOKEN);
