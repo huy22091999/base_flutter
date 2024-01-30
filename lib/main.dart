@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
-import 'package:timesheet/screen/splash_screen.dart';
 import 'package:timesheet/theme/dark_theme.dart';
 import 'package:timesheet/theme/light_theme.dart';
 import 'package:timesheet/theme/theme_controller.dart';

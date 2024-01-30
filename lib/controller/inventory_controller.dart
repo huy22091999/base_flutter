@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
+import 'package:timesheet/data/api/api_checker.dart';
 import 'package:timesheet/data/model/response/asset_info.dart';
 import 'package:timesheet/data/model/response/oct_response.dart';
 import 'package:timesheet/data/repository/inventory_repo.dart';
@@ -33,7 +34,7 @@ class InventoryController extends GetxController implements GetxService {
     }
     await repo.getAllDepartment(pageIndex).then(
       (value) {
-        if (value.statusCode == 200) {
+        if (value.statusCode == 200 && value.body['content'] != null) {
           if(listDepartment != null && listDepartment!.isNotEmpty){
             var newData = Page.fromJson(value.body).content;
             listDepartment!.addAll(newData);
@@ -41,6 +42,9 @@ class InventoryController extends GetxController implements GetxService {
           else {
             _listDepartment = Page.fromJson(value.body).content;
           }
+        }
+        else {
+          ApiChecker.checkApi(value);
         }
       },
     );

@@ -7,8 +7,8 @@ class AppConstants {
   static const String APP_VERSION = "1.0.0";
 
   //https://asvn.oceantech.com.vn/asvn/oauth/token
-  static const String BASE_URL = 'https://asset-management-dev.oceantech.com.vn';
-  static const String NEW_BASE_URL = 'https://asvn.oceantech.com.vn/asvn';
+  static const String BASE_URL = 'https://asvnamstaging.oceantech.com.vn';
+  static const String NEW_BASE_URL = 'https://asvnstaging.oceantech.com.vn/asvn';
   static const String CATEGORY_URI = '/api/v1/categories';
   static const String BANNER_URI = '/api/v1/banners';
   static const String STORE_ITEM_URI = '/api/v1/items/latest';
