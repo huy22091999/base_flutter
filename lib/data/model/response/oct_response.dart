@@ -1,6 +1,3 @@
-
-import 'asset_info.dart';
-
 class OctResponse {
 
   late final int code;
